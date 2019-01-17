@@ -1,0 +1,7 @@
+Chain of Responsiblity
+Command
+Lazy Load?
+Mediator
+Facade
+Observer
+Proxy

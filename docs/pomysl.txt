@@ -1,0 +1,40 @@
+Struktura bêdzie sk³ada³a siê z jednego obiektu klasy(prawdopodobnie Mediator) która bêdzie przyjmowaæ zapytania, nimi zarz¹dzaæ itd.
+oraz wielu obiektów klasy reprezentuj¹cej pojedyncze bazy danych które bêd¹ stanowi³y pomost pomiêdzy tymi bazami a obiektem klasy zarz¹dzaj¹cej.
+Klasa zarz¹dzaj¹ca bêdzie przyjmowa³a i w razie koniecznoœci kolejkowa³a przychodz¹ce zapytania. Bêdzie rozdziela³a zapytania
+pomiêdzy serwerami w nastêpuj¹cy sposób
+- Jeœli zdjête z kolejki zapytanie nie modyfikuje bazy danych realizowane jest przy u¿yciu Chain of Responsibility.
+Obiekty klasy poœrednicz¹cej bêd¹ wysy³aæ kolejno miêdzy sob¹ rz¹danie wykonania zapytania a¿ dotrze do takiej której serwer nie jest 
+aktualnie obci¹¿ony
+- Jeœli zdjête z kolejki zapytanie modyfikujê bazê danych to klasa zarz¹dzaj¹ca przestaje zdejmowaæ z kolejki zapytania i gdy
+wszystkie dotychczasowe zapytania zostan¹ zrealizowane i wtedy wysy³a do wszystkich klas aktualne zapytanie, po czym wznawia rozdzielanie
+zapytañ(nie trzeba czekaæ na zakoñczenie operacji modyfikacji poniewa¿ nowe zapytania bêd¹ kr¹¿yæ a¿ do momentu w którym trafi¹ na woln¹ bazê)
+
+nie wiem do koñca jak zrobiæ z uzyskiwaniem odpowiedzi na zapytanie, mo¿e mo¿na wykorzystaæ promise?
+
+w ka¿dym razie w klasie poœrednicz¹cej mo¿na zrobic flagê która bêdzie ustawiana na 1(bêdzie to symbolizowaæ ¿e baza jest zajêta)
+w momencie w którym klasa przyjmie zapytanie i wyœle je do bazy, a potem ustawiana na 0(wolna) po uzyskaniu odpowiedzi od bazy.
+
+do realizacji przesy³ania zapytania pomiêdzy klasami mo¿na wykorzystaæ wzorzec Command
+
+myœlê ¿e przydatn¹ rzecz¹ mo¿e okazaæ siê 'eventowoœæ' js'a.
+
+
+struktura klas:
+
+Mediator:
+array<Query> query_array
+array<Base> base_array
+---------------
+accept(query)
+respond(response)
+
+
+
+
+Base:
+boolean busy
+Base next
+---------------
+request(query)
+
+
